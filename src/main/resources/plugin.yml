@@ -1,0 +1,12 @@
+name: LBLuckyBlock
+version: 1.0
+main: com.lbdevz.lbluckyblock.LBLuckyBlock
+api-version: '1.20'
+authors: [ lbdevz ]
+description: Hologramli, Can Bari Destekli ve Anti-Macro Korumali Sans Blogu Eklentisi
+
+commands:
+  lbluckyblock:
+    description: LBLuckyBlock ana komutu
+    permission: lbluckyblock.admin
+    aliases: [luckblok, luckyblock, lb]

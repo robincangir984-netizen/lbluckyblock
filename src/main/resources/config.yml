@@ -1,0 +1,48 @@
+messages:
+  prefix: "&e[LB-LuckyBlock] "
+  reload: "&aKonfigurasyon basariyla yenilendi."
+  no-permission: "&cBu komutu kullanmak icin yetkiniz yok!"
+  loc-set: "&a%id% isimli sans blogu bakmakta oldugunuz bloga kuruldu!"
+  not-a-block: "&cHata: Bir bloga bakiyor olmalisiniz!"
+  block-removed: "&c%id% isimli sans blogu kaldirildi!"
+  block-not-found: "&cBöyle bir sans blogu ID'si config icerisinde bulunamadi!"
+  macro-warning: "&cCok hizli vuruyorsunuz! Lutfen makro kullanmayiniz."
+
+macro-protection:
+  max-cps: 5
+
+bloklar:
+  sans_1:
+    display-name: "&e&lEFSANEVİ ŞANS BLOĞU"
+    block-type: "SPONGE"
+    max-hits: 20
+    respawn-delay-seconds: 15
+    sounds:
+      hit: "BLOCK_NOTE_BLOCK_PLING"
+      break: "ENTITY_GENERIC_EXPLODE"
+    location:
+      world: "world"
+      x: 0.0
+      y: 64.0
+      z: 0.0
+    
+    hit-rewards:
+      - chance: 50
+        material: "DIAMOND"
+        amount: 1
+      - chance: 30
+        material: "GOLD_INGOT"
+        amount: 2
+      - chance: 10
+        command: "crates key give %player% kit 1"
+
+    last-hit-rewards:
+      experience: 100
+      sounds:
+        - "UI_TOAST_CHALLENGE_COMPLETE"
+      commands:
+        - "crates key give %player% efsanevi 1"
+        - "broadcast &e%player%, &e&lEFSANEVİ ŞANS BLOĞU'nu &akirdi!"
+      items:
+        - material: "NETHERITE_INGOT"
+          amount: 1
