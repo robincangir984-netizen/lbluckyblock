@@ -26,7 +26,7 @@ public class LBLuckyBlock extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new LuckyBlockListener(this), this);
 
-        luckyBlockManager.loadBloklar();
+        luckyBlockManager.loadSavedBlocks();
 
         getLogger().info("LBLuckyBlock aktif edildi!");
     }

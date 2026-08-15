@@ -1,9 +1,8 @@
 package com.lbdevz.lbluckyblock.commands;
 
 import com.lbdevz.lbluckyblock.LBLuckyBlock;
-import com.lbdevz.lbluckyblock.models.LuckyBlockModel;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,46 +27,25 @@ public class LuckyBlockCommand implements CommandExecutor {
 
         if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
             plugin.reloadConfig();
-            plugin.getLuckyBlockManager().loadBloklar();
+            plugin.getLuckyBlockManager().loadSavedBlocks();
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + plugin.getConfig().getString("messages.reload")));
             return true;
         }
 
-        if (!(sender instanceof Player player)) {
-            sender.sendMessage("Bu komut sadece oyunda kullanilabilir.");
-            return true;
-        }
-
-        if (args.length >= 2 && args[0].equalsIgnoreCase("setloc")) {
-            String id = args[1];
-            Block targetBlock = player.getTargetBlockExact(5);
-
-            if (targetBlock == null || targetBlock.getType().isAir()) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + plugin.getConfig().getString("messages.not-a-block")));
+        if (args.length >= 2 && args[0].equalsIgnoreCase("give")) {
+            Player target = Bukkit.getPlayer(args[1]);
+            if (target == null) {
+                sender.sendMessage(ChatColor.RED + "Oyuncu bulunamadi!");
                 return true;
             }
 
-            LuckyBlockModel model = plugin.getLuckyBlockManager().getModel(id);
-            if (model == null) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + plugin.getConfig().getString("messages.block-not-found")));
-                return true;
-            }
-
-            String path = "bloklar." + id + ".location.";
-            plugin.getConfig().set(path + "world", targetBlock.getWorld().getName());
-            plugin.getConfig().set(path + "x", targetBlock.getX());
-            plugin.getConfig().set(path + "y", targetBlock.getY());
-            plugin.getConfig().set(path + "z", targetBlock.getZ());
-            plugin.saveConfig();
-
-            plugin.getLuckyBlockManager().loadBloklar();
-
-            String msg = plugin.getConfig().getString("messages.loc-set", "").replace("%id%", id);
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + msg));
+            target.getInventory().addItem(plugin.getLuckyBlockManager().getLuckyBlockItem());
+            String msg = plugin.getConfig().getString("messages.given-item", "").replace("%player%", target.getName());
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + msg));
             return true;
         }
 
-        player.sendMessage(ChatColor.YELLOW + "Kullanim: /lbluckyblock <setloc|reload> [id]");
+        sender.sendMessage(ChatColor.YELLOW + "Kullanim: /lbluckyblock <give|reload> [oyuncu]");
         return true;
     }
 }
